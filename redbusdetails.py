@@ -38,11 +38,17 @@ data['reachingtime'] = data['reachingtime'].apply(format_timedelta)
 
 # Filters
 routes = data['routename'].unique()
-bus_names = data['busname'].unique()
-bus_types = data['bustype'].unique()
-star_ratings = data['starrating'].unique()
-
 selected_route = st.sidebar.multiselect('Select Route', routes)
+
+# Filter data based on selected routes
+if selected_route:
+    filtered_data_by_route = data[data['routename'].isin(selected_route)]
+else:
+    filtered_data_by_route = data
+
+bus_names = filtered_data_by_route['busname'].unique()
+bus_types = filtered_data_by_route['bustype'].unique()
+
 selected_bus_name = st.sidebar.multiselect('Select Bus Name', bus_names)
 selected_bus_type = st.sidebar.multiselect('Select Bus Type', bus_types)
 
